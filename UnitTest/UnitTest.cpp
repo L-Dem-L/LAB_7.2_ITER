@@ -28,7 +28,9 @@ namespace UnitTest
 					Assert::IsTrue(a[i][j] >= Low && a[i][j] <= High);
 
 			// Clean up
-			DeleteMatrix(a, k);
+			for (int i = 0; i < k; i++)
+				delete[] a[i];
+			delete[] a;
 		}
 
 		TEST_METHOD(TestFindAndSwapMinMax)
@@ -53,8 +55,38 @@ namespace UnitTest
 			Assert::AreEqual(11, a[2][4]);
 
 			// Clean up
-			DeleteMatrix(a, k);
+			for (int i = 0; i < k; i++)
+				delete[] a[i];
+			delete[] a;
 		}
+
+		TEST_METHOD(TestPrint)
+		{
+			// Arrange
+			int k = 2, n = 3;
+			int** a = new int* [k];
+			for (int i = 0; i < k; i++)
+				a[i] = new int[n];
+			a[0][0] = 1; a[0][1] = 2; a[0][2] = 3;
+			a[1][0] = 4; a[1][1] = 5; a[1][2] = 6;
+
+			// Act
+			std::stringstream buffer;
+			std::streambuf* old = std::cout.rdbuf(buffer.rdbuf()); // Redirect cout
+			Print(a, k, n);
+			std::cout.rdbuf(old); // Restore cout
+
+			// Assert
+			std::string printedOutput = buffer.str();
+			std::string expectedOutput = "\n   1   2   3\n   4   5   6\n\n";
+			Assert::AreEqual(expectedOutput, printedOutput);
+
+			// Clean up
+			for (int i = 0; i < k; i++)
+				delete[] a[i];
+			delete[] a;
+		}
+
 
 		TEST_METHOD(TestSwap)
 		{

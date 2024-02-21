@@ -28,7 +28,9 @@ int main() {
     FindAndSwapMinMax(a, k, n);
     Print(a, k, n);
 
-    DeleteMatrix(a, k);
+    for (int i = 0; i < k; i++)
+        delete[] a[i];
+    delete[] a;
     return 0;
 }
 
@@ -87,10 +89,4 @@ void Swap(int& a, int& b) {
     int temp = a;
     a = b;
     b = temp;
-}
-
-void DeleteMatrix(int** a, const int k) {
-    for (int i = 0; i < k; i++)
-        delete[] a[i];
-    delete[] a;
 }
